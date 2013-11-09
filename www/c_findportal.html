@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>nativeDroid - Theme for jQuery Mobile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		
+		<!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+		<!-- jQueryMobileCSS - original without styling -->
+        <link rel="stylesheet" href="css/jquerymobile.css" />
+
+		<!-- nativeDroid core CSS -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.css" />
+
+		<!-- nativeDroid: Light/Dark -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.dark.css"  id='jQMnDTheme' />
+
+		<!-- nativeDroid: Color Schemes -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.color.green.css" id='jQMnDColor' />
+
+		<!-- jQuery / jQueryMobile Scripts -->
+		<script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.2.js"></script>
+
+<script type="text/javascript">
+			function appReady(q){
+				
+				
+				$.getJSON( "http://cerebro.botnyx.com/api/portal/search/"+q, function(data) {
+				
+					var theHTML='';
+					$.each( data.markers, function(i, marker) {
+						console.log(marker);
+						theHTML += '<li><a href="index.php">' +
+						'<img style="max-width:80px;max-height:80px" src="'+marker.imageByUrl+'">' +
+						'<h1>'+marker.title+'</h1>' +
+						'<p>'+marker.content+'</p>' +
+						'<p class="ui-li-aside"><strong>'+marker.controllingTeam+'</strong></p>'+
+						'</a></li>';
+					});
+					$('#portals').html(theHTML);
+					$("#portals").listview( "refresh" );
+				
+				});
+				
+				
+				
+				
+			}
+            //document.addEventListener("deviceready", appReady("bacon"), false);
+		
+		$( document ).ready(function() {
+			
+			$.getJSON( 'http://cerebro.botnyx.com/api/portals/52.070498/4.300700000000001/0.5/portals.json', function(data) {
+				
+				var theHTML='';
+				$.each( data.markers, function(i, marker) {
+					console.log(marker);
+					theHTML += '<li><a href="index.php">' +
+                    '<img style="max-width:80px;max-height:80px" src="'+marker.imageByUrl+'">' +
+                    '<h1>'+marker.title+'</h1>' +
+                    '<p>'+marker.content+'</p>' +
+                    '<p class="ui-li-aside"><strong>'+Math.round(marker.distance*1000)+'</strong>M</p>'+
+                	'</a></li>';
+				});
+				$('#portals').html(theHTML);
+				$("#portals").listview( "refresh" );
+				
+			});
+			
+			
+			$("#name2b").keyup(function(){
+					var t = $("#name2b").val();
+					//if(isEven( t.length ) && t.length > 2 || t.length == 0 ){
+					if( t.length > 1  ){	
+						appReady( t );
+					}
+			});
+			function isEven(n) {
+			  n = Number(n);
+			  return n === 0 || !!(n && !(n%2));
+			}
+			
+			
+		});
+        </script>
+		
+        
+        
+        
+		<style type="text/css">
+			.tweet {padding-bottom:5px;}
+			.avatar {float: left; height: 48px; width: 48px;}
+			.tweet_content {margin-left: 60px; min-height: 48px;}
+		</style>
+
+    </head>
+    <body>
+        
+    <div data-role="page" data-theme='b'>
+
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="index.html" data-ajax="false"><i class='icon-ellipsis-vertical'></i></a>
+            <h1>Find portal</h1>
+        </div>
+        
+        <div >   
+
+		<div class='inset'>
+                <input type="text" name="name2" id="name2b" value="" data-clear-btn="true" placeholder="Type your text here...">
+                        
+            
+	        <ul id='portals' data-role="listview" data-inset="false" data-icon="false" data-divider-theme="b">
+                
+                <li data-role="list-divider">Portals in a x meter radius <span class="ui-li-count"></span></li>
+                <li><a href="index.php">
+                    <div><img src="http://www.placehold.it/150x150"></div>
+                    <h2>Stephen Weber</h2>
+                    <p>Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>
+                    <p class="ui-li-aside"><strong>6:24</strong>PM</p>
+                </a></li>
+                <li><a href="index.php">
+                    <img src="http://www.placehold.it/150x150">
+                    <h2>jQuery Team</h2>
+                    <p>In preparation for the upcoming conference in Boston, we need to start gathering a list of sponsors and speakers.</p>
+                    <p class="ui-li-aside"><strong>9:18</strong>AM</p>
+                </a></li>
+            
+            
+        	</ul>
+            
+                        
+			<p>Search is case sensitive</p>
+        </div>
+	        
+	        
+        </div>
+
+    </div>
+    
+    </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>nativeDroid - Theme for jQuery Mobile</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		
+		<!-- FontAwesome - http://fortawesome.github.io/Font-Awesome/ -->
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+		<!-- jQueryMobileCSS - original without styling -->
+        <link rel="stylesheet" href="css/jquerymobile.css" />
+
+		<!-- nativeDroid core CSS -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.css" />
+
+		<!-- nativeDroid: Light/Dark -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.dark.css"  id='jQMnDTheme' />
+
+		<!-- nativeDroid: Color Schemes -->
+        <link rel="stylesheet" href="css/jquerymobile.nativedroid.color.green.css" id='jQMnDColor' />
+
+		<!-- jQuery / jQueryMobile Scripts -->
+		<script src="js/jquery-1.9.1.min.js"></script>
+        <script src="js/jquery.mobile-1.3.2.js"></script>
+
+<script type="text/javascript">
+			function appReady(q){
+				//alert(q);
+				var ajax = new XMLHttpRequest();
+				ajax.open("GET","http://cerebro.botnyx.com/api/player/search/"+q,true);
+				ajax.send();
+				var theHTML = '<li data-iconpos="center" >' +
+				'<div class="ui-btn-inner ui-li"><div class="ui-btn-text">' + 
+							'<a href="#" data-ajax="false" class="icon-spinner">Loading </a>' +
+	            					'</div></div></li>';
+				theHTML ='<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="b" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-b">' +
+							'<div class="ui-btn-inner ui-li"><div class="ui-btn-text">' + 
+							'<a href="#" data-ajax="false" class="ui-link-inherit"><i class="icon-spinner"></i> Loading</a>' +
+	            					'</div></div></li>';					
+				
+				$('.inset ul').html(theHTML);
+				ajax.onreadystatechange=function(){
+					if(ajax.readyState==4 && (ajax.status==200||ajax.status==0)){
+						$('.inset ul').html("");
+						//eval('var data = ' + ajax.responseText + ';');
+						data = JSON.parse(ajax.responseText);
+						//console.log(data);
+						var theResults = data;
+						var theHTML = '';
+						for(var i=0;i<theResults.length;i++){
+							console.log(theResults[i]);
+							theHTML +='<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="false" data-iconpos="right" data-theme="b" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-b">' +
+							'<div class="ui-btn-inner ui-li"><div class="ui-btn-text">' + 
+							'<a href="#'+theResults[i].guid+'" data-ajax="false" class="ui-link-inherit">'+theResults[i].nick+'</a>' +
+	            					'</div></div></li>';
+
+							
+						}
+						$('.inset ul').html(theHTML);
+					}
+				}
+			}
+            document.addEventListener("deviceready", appReady("bacon"), false);
+		
+		$( document ).ready(function() {
+			$("#name2b").keyup(function(){
+					var t = $("#name2b").val();
+					//if(isEven( t.length ) && t.length > 2 || t.length == 1 ){
+					if( t.length > 0  ){
+						appReady( t );
+					}
+			});
+			function isEven(n) {
+			  n = Number(n);
+			  return n === 0 || !!(n && !(n%2));
+			}
+
+
+						var ref = window.open(url, "_self", "location=yes,menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
+						 ref.addEventListener('loadstart', function() { 
+						 //alert('start: ' + event.url);
+						 });
+						 //ref.executeSript({ code: "alert('badgeparser.js');" });
+						 ref.addEventListener('loadstop', function() { 
+						 	ref.executeSript({ code: "alert('badgeparser.js');" });
+							alert('stop: ' + event.url);
+					//badgeparser.js
+							
+							alert("after badgeparser.js");
+
+						 });
+						 ref.addEventListener('exit', function() { alert(event.type); });
+
+		});
+        </script>
+		
+        
+        
+        
+		<style type="text/css">
+			.tweet {padding-bottom:5px;}
+			.avatar {float: left; height: 48px; width: 48px;}
+			.tweet_content {margin-left: 60px; min-height: 48px;}
+		</style>
+
+    </head>
+    <body>
+        
+    <div data-role="page" data-theme='b'>
+
+
+        <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme='b'>
+            <a href="index.html" data-ajax="false"><i class='icon-ellipsis-vertical'></i></a>
+            <h1>Find player</h1>
+        </div>
+        
+        <div >   
+
+		<div class='inset'>
+                <input type="text" name="name2" id="name2b" value="" data-clear-btn="true" placeholder="Type your text here...">
+                        
+            
+	        <ul data-role="listview" data-filter="false" data-filter-reveal="true" data-filter-placeholder="Searching for birds..." data-filter-theme="b">
+				
+				
+	        </ul>
+            
+                        
+			<p>Search is case sensitive</p>
+        </div>
+	        
+	        
+        </div>
+
+    </div>
+    
+    </body>
+</html>
